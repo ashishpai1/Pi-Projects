@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> </meta>
+
+    <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css"/>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript" src="jquery.tabulate.js"></script>
+<link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+<title>jQuery Tabulate Plugin Demo</title>
+</head>
+
+<body>
+<div id="jquery-script-menu">
+<div class="jquery-script-center">
+
+
+<div class="jquery-script-clear"></div>
+</div>
+</div>	
+<h1 style="margin-top:150px;">Homeless user details. </h1>
+<table id="tab" class="table table-striped">
+<thead>
+<th>Id</th>
+<th>FirstName</th>
+<th>LastName</th>
+<th>Address</th>
+<th>ZipCode</th>
+<th>City</th>
+<th>State</th>
+<th>PhoneNumber</th>
+<th>Email</th>
+<th>TagNo</th>
+<th>BedId</th>
+</thead>
+<tbody>
+</tbody>
+<tfoot>
+<td  colspan="4"><ul id="paging" class="pagination">
+</ul>
+</td>
+</tfoot>
+</table>
+<script type="text/javascript">
+			var tab = $('#tab')
+
+			var xhr = function () {
+
+				console.log(arguments);
+				return $.ajax({
+					url: "/viewAllUsers",
+					dataType: 'json'
+				});
+			};
+
+			var renderer = function (r, c, item) {
+				switch(c)
+				{
+					case 0:
+						return item._id;
+
+					case 1:
+						return item.firstName;
+
+					case 2:
+						return item.lastName;
+
+
+                    case 3:
+                        return item.address;
+                    case 4:
+                        return item.zipCode;
+
+                    case 5:
+                        return item.city;
+
+                    case 6:
+                        return item.state;
+
+                    case 7:
+                        return item.phoneNumber;
+
+                    case 8:
+                        return item.email;
+
+                    case 9:
+                        return item.tagNo;
+
+
+
+					default:
+						return item.bedId;
+				}
+			};
+
+			tab.tabulate({
+
+				source: xhr,
+				renderer: renderer,
+				pagination: $('#paging'),
+				pagesI18n: function(str) {
+					switch(str) {
+						case 'next':
+							return 'Aage';
+							//jQuery.tabulate.next(str);
+
+						case 'prev':
+							return 'Peeche';
+					}
+				}
+			})
+			.on('loadfailure', function (){
+				console.error(arguments);
+				alert('Failed!');
+			});
+
+			tab.trigger('load');
+		</script>
+
+</body>
+</html>
